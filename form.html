@@ -1,3 +1,5 @@
 <template name="form">
-
+	{{#with reactiveContext item this helpers}}
+		{{> UI.contentBlock this}}
+	{{/with}}
 </template>

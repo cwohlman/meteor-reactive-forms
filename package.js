@@ -4,6 +4,12 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('ui');
+  api.use('templating');
   api.use('reactive-dict');
+  api.use('underscore');
+  
   api.add_files('reactive-context.js', ['client']);
+
+  api.add_files('form.html', ['client']);
+  api.add_files('form.js', ['client']);
 });

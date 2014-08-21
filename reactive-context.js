@@ -79,7 +79,7 @@ var reactiveContextHelpers = {
 
 		// make all 3 arguments optional
 		if (arguments.length === 0) {
-			name = null;
+			name = true;
 			property = null;
 			id = null;
 		} else if (arguments.length == 1) {
@@ -97,7 +97,7 @@ var reactiveContextHelpers = {
 
 		check(id, String);
 		check(property, String);
-		check(name, Match.Optional(String));
+		check(name, Match.OneOf(String, Boolean));
 
 		// by prefixing the property with the id we can store multiple items
 		// in the same dict.
@@ -105,8 +105,12 @@ var reactiveContextHelpers = {
 		var item = this[key];
 		var entry = this.dict.get(key);
 
-		if (!name) {
+		if (name === true) {
 			return _.defaults(entry || {}, item || {});
+		}
+
+		if (name === false) {
+			return entry || {};
 		}
 
 		if (entry && entry.hasOwnProperty(name)) {
