@@ -77,16 +77,22 @@ var reactiveContextHelpers = {
 		// calling this function without specifying a truthy name argument
 		// will return a copy of this[id_property] with any changes merged in
 
+		// convert the arguments to an array so we can remove any Spacebars.kw object
+		var args = _.toArray(arguments);
+		if (args[args.length - 1] instanceof Spacebars.kw) {
+			args.pop();
+		}
+
 		// make all 3 arguments optional
-		if (arguments.length === 0) {
+		if (args.length === 0) {
 			name = true;
 			property = null;
 			id = null;
-		} else if (arguments.length == 1) {
+		} else if (args.length == 1) {
 			name = id;
 			property = null;
 			id = null;
-		} else if (arguments.length == 2) {
+		} else if (args.length == 2) {
 			name = property;
 			property = id;
 			id = null;
