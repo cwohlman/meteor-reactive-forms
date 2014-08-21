@@ -3,10 +3,10 @@ Forms = {};
 
 Forms.helpers = {
 	// event handlers
-	onChange: function (e, tmpl, name, value) {
+	onChange: function (name, value, e, tmpl) {
 		this.set(name, value);
 	}
-	, onInvalid: function (errors) {
+	, onInvalid: function (errors, e, tmpl) {
 		console.log('Errors in form', errors);
 		alert('Errors in form');
 		throw new Error('Form is invalid.');
@@ -181,14 +181,14 @@ Forms.events = {
 					, tmpl
 				);
 			} else if (typeof this.onInvalid == 'function') {
-				this.onInvalid(this.get('errors', null));
+				this.onInvalid(this.get('errors', null), e, tmpl);
 			}
 		}
 	}
 	, 'change': function (e, tmpl) {
 		if (typeof this.onChange == 'function') {
 			var value = Forms.helpers.inputValue(e.currentTarget);
-			this.onChange(e, tmpl, value.name, value.value);
+			this.onChange(value.name, value.value, e, tmpl);
 		}
 		if (typeof this.onSubmit == 'function' && this.liveSubmit) {
 			Forms.events.submit.apply(this, arguments);
@@ -198,11 +198,11 @@ Forms.events = {
 		var value;
 		if (typeof this.onLiveChange == 'function') {
 			value = Forms.helpers.inputValue(e.currentTarget);
-			this.onLiveChange(e, tmpl, value.name, value.value);
+			this.onLiveChange(value.name, value.value, e, tmpl);
 		}
 		if (typeof this.onChange == 'function' && this.liveChange) {
 			value = Forms.helpers.inputValue(e.currentTarget);
-			this.onChange(e, tmpl, value.name, value.value);
+			this.onChange(value.name, value.value, e, tmpl);
 		}
 	}
 };
