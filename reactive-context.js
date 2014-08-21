@@ -16,10 +16,23 @@ UI.registerHelper('reactiveContext', function (item, helpers) {
 		args = args.slice(1);
 	}
 
+	// if item doesn't exist we can create it
+	if (!item) {
+		item = {
+			_id: Random.id()
+		};
+	}
+
+	// item is required to have an id
+	if (!item._id) {
+		throw new Error('Reactive forms requires an id');
+	}
+
+
 	var context = {
 		item: item
 		// we use the id as a property name prefix in the get and set helpers
-		, _id: item && item._id || Random.id()
+		, _id: item._id
 		// marks this object as a reactive context
 		, __reactiveContext: true
 	};
@@ -70,6 +83,45 @@ UI.registerHelper('reactiveContext', function (item, helpers) {
 	return context;
 });
 
+var getChildChanges = function (original, changes, dict) {
+	var stopDict = [], i = 0;
+	var recursiveMake = function (item) {
+		i++;
+		if (i > 100000) throw new Error('Infinite Loop!');
+		var match = false;
+		if (!item || typeof item != 'object') return;
+		if (stopDict.indexOf(item) != -1) return;
+		stopDict.push(item);
+		if (item && item._id) {
+			var changes = dict.get(item._id + "_item");
+			if (changes) {
+				if (_.isArray(item) || _.isArray(changes)) {
+					item = changes;
+				} else {
+					_.extend(item, changes);
+				}
+				match = true;
+			}
+		}
+		_.each(item, function (a, i) {
+			var childResult = recursiveMake(a);
+			if (childResult) {
+				match = true;
+				item[i] = childResult;
+			}
+		});
+		if (match) return item;
+	};
+	var result = _.isArray(parent) ? [] : {};
+	var keys = _.uniq(_.keys(original).concat(_.keys(changes)));
+	_.each(keys, function (key) {
+		var val = changes[key] || original[key];
+		var changed = recursiveMake(val);
+		if (changed) result[key] = changed;
+	});
+	return result;
+};
+
 var reactiveContextHelpers = {
 	get: function (id, property, name) {
 		// helper to get this[id_property][name] first checking to see
@@ -108,18 +160,18 @@ var reactiveContextHelpers = {
 		// by prefixing the property with the id we can store multiple items
 		// in the same dict.
 		var key = [id, property].join("_");
-		var item = this[key];
-		var entry = this.dict.get(key);
+		var item = this[key] || {};
+		var entry = this.dict.get(key) || {};
 
 		if (name === true) {
-			return _.defaults(entry || {}, item || {});
+			return _.extend(item, entry, getChildChanges(item, entry, this.dict));
 		}
 
 		if (name === false) {
-			return entry || {};
+			return _.extend(entry, getChildChanges(item, entry, this.dict));
 		}
 
-		if (entry && entry.hasOwnProperty(name)) {
+		if (entry.hasOwnProperty(name)) {
 			return entry[name];
 		}
 

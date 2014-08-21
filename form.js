@@ -171,16 +171,8 @@ Forms.events = {
 
 			var formIsValid = this.validateAll();
 			if (formIsValid) {
-				var changes = this.get('item', false) || {};
-
-				// XXX todo: reimplement the extract changes method
-				// or add this functionality into this.get
-				// changes = _.extend(
-				// 	changes
-				// 	, this.extractChildChanges(
-				// 		_.extend({}, this.item, changes)
-				// 	)
-				// );
+				// The false flag returns all changes to the item
+				var changes = this.get(false);
 
 				this.onSubmit(
 					changes
