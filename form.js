@@ -5,6 +5,7 @@ Forms.helpers = {
 	// event handlers
 	onChange: function (name, value, e, tmpl) {
 		this.set(name, value);
+		this.validate(name, value);
 	}
 	, onInvalid: function (errors, e, tmpl) {
 		console.log('Errors in form', errors);
