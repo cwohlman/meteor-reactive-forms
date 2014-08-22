@@ -16,15 +16,8 @@ UI.registerHelper('reactiveContext', function (item, helpers) {
 		args = args.slice(1);
 	}
 
-	// if item doesn't exist we can create it
-	if (!item) {
-		item = {
-			_id: Random.id()
-		};
-	}
-
 	// item is required to have an id
-	if (!item._id) {
+	if (item && !item._id) {
 		throw new Error('Reactive forms requires an id');
 	}
 
@@ -32,7 +25,7 @@ UI.registerHelper('reactiveContext', function (item, helpers) {
 	var context = {
 		item: item
 		// we use the id as a property name prefix in the get and set helpers
-		, _id: item._id
+		, _id: item && item._id || Random.id()
 		// marks this object as a reactive context
 		, __reactiveContext: true
 	};
