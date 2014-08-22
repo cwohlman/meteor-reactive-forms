@@ -34,7 +34,8 @@ Forms.helpers = {
 		return errors.length === 0;
 	}
 	, validateAll: function (item, schema) {
-		var self = this;
+		var self = this
+			, id = item && item._id;
 		if (arguments.length === 0) {
 			schema = this.dict.get('schema') || this.schema;
 			item = null;
@@ -43,7 +44,7 @@ Forms.helpers = {
 			item = null;
 		}
 		var errors = _.map(schema, function (options, key) {
-			return self.validate(key, self.get(key), options);
+			return self.validate(key, self.get(id, 'item', key), options);
 		});
 		
 		errors = _.values(errors);
@@ -154,6 +155,14 @@ Forms.helpers = {
 			if(!urlRegex.test(val)){
 				return (fieldName + ' must be a valid url.');
 			}
+		}
+		, child: function (val, options, fieldName) {
+			if (!options || typeof options != 'object') return;
+			var self = this;
+			var results =_.chain([].concat(val)).map(function (item) {
+				return !self.validateAll(item, options, fieldName);
+			}).filter(_.identity).value();
+			return results.length ? fieldName + (val instanceof Array ? ' items are invalid' : ' is invalid') : null;
 		}
 		, validate: function (val, options, fieldName) {
 			if (typeof options == "function") {

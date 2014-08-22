@@ -134,7 +134,7 @@ var reactiveContextHelpers = {
 
 		// make all 3 arguments optional
 		if (args.length === 0) {
-			name = true;
+			name = null;
 			property = null;
 			id = null;
 		} else if (args.length == 1) {
@@ -146,7 +146,8 @@ var reactiveContextHelpers = {
 			property = id;
 			id = null;
 		}
-
+		
+		if (!name && name !== false) name = true;
 		if (!property) property = "item";
 		if (!id) id = this._id;
 
