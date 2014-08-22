@@ -160,7 +160,15 @@ var reactiveContextHelpers = {
 		// by prefixing the property with the id we can store multiple items
 		// in the same dict.
 		var key = [id, property].join("_");
-		var item = this[key] || {};
+		// we normally want to get the prefixed version of an entity, to ensure we are getting
+		// 'the right' entity, however some entities are not managed in this way,
+		// schema is an object supported by the forms library, but which does not have an
+		// associated id, instead we access it directly.
+		// this also allows us to access any given property available on 'this' through 
+		// the get accessor.
+		// we don't want to allow accessing this[property] if the user has explicitly 
+		// asked for the prefixed property by passing the id argument
+		var item = this[key] || (args.length < 3 && this[property]) || {};
 		var entry = this.dict.get(key) || {};
 
 		if (name === true) {
