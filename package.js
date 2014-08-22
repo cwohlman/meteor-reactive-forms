@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "REPLACEME - What does this package (or the original one you're wrapping) do?"
+  summary: "Minimalistic library for making form contents reactive."
 });
 
 Package.on_use(function (api, where) {
