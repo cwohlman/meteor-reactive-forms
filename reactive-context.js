@@ -1,4 +1,6 @@
-UI.registerHelper('reactiveContext', function (item, helpers) {
+Forms = {};
+
+Forms.reactiveContext = function (item, helpers) {
 	var args = _.toArray(arguments);
 
 	// Convert last helper argument to object
@@ -74,7 +76,9 @@ UI.registerHelper('reactiveContext', function (item, helpers) {
 	}
 
 	return context;
-});
+};
+
+UI.registerHelper('reactiveContext', Forms.reactiveContext);
 
 var getChildChanges = function (original, changes, dict) {
 	var stopDict = [], i = 0;

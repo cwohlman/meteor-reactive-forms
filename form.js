@@ -1,6 +1,3 @@
-
-Forms = {};
-
 Forms.helpers = {
 	// event handlers
 	onChange: function (name, value, e, tmpl) {
