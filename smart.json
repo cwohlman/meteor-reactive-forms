@@ -1,8 +1,8 @@
 {
   "name": "reactive-forms",
-  "description": "REPLACEME - What does this package (or the original one you're wrapping) do?",
+  "description": "Minimalistic library for making form contents reactive.",
   "homepage": "",
-  "author": "Your Name <your@email> (http://yoursite)",
+  "author": "Joshua Ohlman <codewriterohs@gmail.com>",
   "version": "0.0.1",
   "git": "",
   "packages": {}
