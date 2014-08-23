@@ -232,11 +232,11 @@ Forms.eventSelectors = {
 };
 
 
-Template.form.helpers({
+Template.reactiveForm.helpers({
 	helpers: Forms.helpers
 });
 
-Template.form.events(
+Template.reactiveForm.events(
 	_.chain(Forms.eventSelectors)
 	.pairs()
 	.map(function (a) {

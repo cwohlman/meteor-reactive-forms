@@ -49,22 +49,22 @@ The full get and set signatures:
  2. Replacing the whole item is more likely to cause id changes, which are not supported. (if, for example duplicating an item, you might be tempted to simply replace the empty new item with the already populated original, resulting in and _id collision)
  3. Replacing the whole item ignores the fact that dictionary values override underlying item values only if they exist, so calling `this.set('item', null, {'name': 'new'})` would set the name property of the object being edited, but would not have the expected effect of removing other values which might be present.
 
-##form
-The form helper is intended to the be the most commonly used helper in the forms library, the form helper provides two things in addition to the base functionality provided by the reactiveContext helper
- 1. The form helper provides several additional helper functions which relate specifically to forms, and in particular many of them relate to validation.
+##reactiveForm
+The reactiveForm helper is intended to the be the most commonly used helper in the forms library, the reactiveForm helper provides two things in addition to the base functionality provided by the reactiveContext helper
+ 1. The reactiveForm helper provides several additional helper functions which relate specifically to forms, and in particular many of them relate to validation.
     - validate(name, value, schema) validates the property name with value value against the specified schema, or this.schema, returns true if the value is valid. Error messages are stored in this.errors
     validateAll(item, schema) validates all fields in schema, like validate returns true if valid and stores errors in this.errors;
-    inputValue(element) examins an element (presumably an input element or other form control) and returns an object with two keys, name and value, used by the change event handler to deturmine which property to update, and what the new value should be.
+    inputValue(element) examins an element (presumably an input element or other reactiveForm control) and returns an object with two keys, name and value, used by the change event handler to deturmine which property to update, and what the new value should be.
     fields returns the keys for the schema object, useful for autolayout of forms
 
- 2. The form helper also provides event handling
+ 2. The reactiveForm helper also provides event handling
     When the forms library handles an event, it looks for a named handler in the local data context (the `this` of the event handler).
 
-    To use event handlers just add your handler as an additional hash argument to the form tag (eg `{{form item=item onSubmit=onSubmit}}``)
+    To use event handlers just add your handler as an additional hash argument to the reactiveForm tag (eg `{{reactiveForm item=item onSubmit=onSubmit}}``)
 
     Event handlers are called with some custom arguments followed by the standard event arguments provided by meteor.
 
-    The form helper handles 4 events:
+    The reactiveForm helper handles 4 events:
         - onSubmit, this function will be called when your form is submitted with the following 2 arguments:
            - values, any changes made to the object
            - original, the object as it was passed in - we currently do not garuntee that child objects of the original item have not been modified

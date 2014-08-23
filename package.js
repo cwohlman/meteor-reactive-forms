@@ -12,6 +12,6 @@ Package.on_use(function (api, where) {
   api.add_files('child-context.js', ['client']);
   api.add_files('children-context.js', ['client']);
 
-  api.add_files('form.html', ['client']);
-  api.add_files('form.js', ['client']);
+  api.add_files('reactive-form.html', ['client']);
+  api.add_files('reactive-form.js', ['client']);
 });
