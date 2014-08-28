@@ -127,9 +127,11 @@ var reactiveContextHelpers = {
 		// will return a copy of this[id_property] with any changes merged in
 
 		// convert the arguments to an array so we can remove any Spacebars.kw object
-		var args = _.toArray(arguments);
+		var args = _.toArray(arguments)
+			, calledAsHelper = false;
 		if (args[args.length - 1] instanceof Spacebars.kw) {
 			args.pop();
+			calledAsHelper = true;
 		}
 
 		// make all 3 arguments optional
@@ -177,11 +179,12 @@ var reactiveContextHelpers = {
 			return _.extend(entry, getChildChanges(item, entry, this.dict));
 		}
 
-		// XXX we probably want to enable helper functions here
-		// eg if (typeof item[name] == 'function') return item[name].call(this);
-
 		if (entry.hasOwnProperty(name)) {
 			return entry[name];
+		}
+
+		if (calledAsHelper && typeof item[name] == 'function') {
+			return item[name].call(this);
 		}
 
 		return item[name];
