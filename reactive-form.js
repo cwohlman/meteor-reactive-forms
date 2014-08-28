@@ -67,6 +67,50 @@ Forms.helpers = {
 			return a;
 		});
 	}
+	// sub-context helpers
+	, withField: function (field, fieldName) {
+		// field represents a schema entry
+		return _.defaults({
+			fieldName: fieldName
+			, field: _.defaults({
+					name: fieldName
+				}
+				, field
+				, this.field || {}
+			)
+			// I think there's no need to allow a field to extend options,
+			// options are fundementally form level, you should specify
+			// field level options at the form level by settings the field
+			// property
+			// eg  form.field.class= "form-control"
+			// not form.options.fieldClass = "form-control"
+			// if we change our minds it would be easy to enable
+			// , options: _.defaults({}, field.options, this.options)
+		}
+		, this
+		);
+	}
+	, withFields: function () {
+		return _.map(this.schema, this.withField, this);
+	}
+	, withButton: function (button, buttonName) {
+		// button represents a buttons entry
+		return _.defaults({
+			buttonName: buttonName
+			, button: _.defaults({
+					name: buttonName
+				}
+				, button
+				, this.button || {}
+			)
+		}
+		, this
+		);
+	}
+	, withButtons: function () {
+		return _.map(this.buttons, this.withButton, this);
+	}
+	// validators
 	, validators: {
 		required: function (value, options) {
 			if (!value && options) {

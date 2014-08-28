@@ -177,11 +177,14 @@ var reactiveContextHelpers = {
 			return _.extend(entry, getChildChanges(item, entry, this.dict));
 		}
 
+		// XXX we probably want to enable helper functions here
+		// eg if (typeof item[name] == 'function') return item[name].call(this);
+
 		if (entry.hasOwnProperty(name)) {
 			return entry[name];
 		}
 
-		return item && item[name];
+		return item[name];
 	}
 	, set: function (id, property, name, value) {
 		// helper to set this[id_property][name]

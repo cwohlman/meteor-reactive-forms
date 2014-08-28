@@ -52,10 +52,14 @@ The full get and set signatures:
 ##reactiveForm
 The reactiveForm helper is intended to the be the most commonly used helper in the forms library, the reactiveForm helper provides two things in addition to the base functionality provided by the reactiveContext helper
  1. The reactiveForm helper provides several additional helper functions which relate specifically to forms, and in particular many of them relate to validation.
-    - validate(name, value, schema) validates the property name with value value against the specified schema, or this.schema, returns true if the value is valid. Error messages are stored in this.errors
+    - `validate(name, value, schema)` validates the property name with value value against the specified schema, or this.schema, returns true if the value is valid. Error messages are stored in this.errors
     validateAll(item, schema) validates all fields in schema, like validate returns true if valid and stores errors in this.errors;
-    inputValue(element) examins an element (presumably an input element or other reactiveForm control) and returns an object with two keys, name and value, used by the change event handler to deturmine which property to update, and what the new value should be.
-    fields returns the keys for the schema object, useful for autolayout of forms
+    - `inputValue(element)` examins an element (presumably an input element or other reactiveForm control) and returns an object with two keys, name and value, used by the change event handler to deturmine which property to update, and what the new value should be.
+    - `fields` returns the keys for the schema object, useful for autolayout of forms
+    - `withField(field, fieldName)` extends the current context with field specific properties, namely it sets `this.field` to `this.schema[fieldName]`
+    - `withFields` returns an array of withField contexts, useful for laying out every field in a form
+    - `withButton(button, buttonName)` extends the current context with button specific properties, namely it sets `this.button` to `this.buttons[buttonName]`
+    - `withButtons` returns an array of withButton contexts, useful for laying out every button in a form, or sub-form;
 
  2. The reactiveForm helper also provides event handling
     When the forms library handles an event, it looks for a named handler in the local data context (the `this` of the event handler).
@@ -74,5 +78,4 @@ The reactiveForm helper is intended to the be the most commonly used helper in t
         - onLiveChange, this handler has identical arguments and behavior to onChange, but watches a more agressive set of events, and as a result updates more quickly. You can redirect onLiveChange events to the onChange handler by passing `liveChange=true` when creating the form
         - onInvalid, this handler is fired instead of the onSubmit event if form validation fails, your function will be called with one argument:
             - errors, a dictionary, who's keys corrospond the the propertyNames in the provided schema. Any key with a truthy value represents an error, the default validator function will set errors[name] to an array containing all the errors related to the name property (eg, required, min length, etc.)
-
 

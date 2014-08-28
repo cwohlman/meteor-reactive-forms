@@ -14,4 +14,6 @@ Package.on_use(function (api, where) {
 
   api.add_files('reactive-form.html', ['client']);
   api.add_files('reactive-form.js', ['client']);
+
+  api.export('Forms', ['client']);
 });
