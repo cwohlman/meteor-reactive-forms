@@ -69,14 +69,32 @@ Forms.helpers = {
 	}
 	// sub-context helpers
 	, withField: function (field, fieldName) {
+
+		if (typeof field == 'string') {
+			fieldName = field;
+			field = this.get('schema', fieldName);
+		}
+
+		if (field instanceof Spacebars.kw) {
+			field = field.hash;
+			this.set('schema', field.name, field);
+		}
+
+		if (!fieldName) {
+			fieldName = field.name;
+		}
+
+		var fieldDefaults = this.field || {};
+
 		// field represents a schema entry
 		return _.defaults({
 			fieldName: fieldName
+			, fieldDefaults: fieldDefaults
 			, field: _.defaults({
 					name: fieldName
 				}
 				, field
-				, this.field || {}
+				, fieldDefaults
 			)
 			// I think there's no need to allow a field to extend options,
 			// options are fundementally form level, you should specify
@@ -93,7 +111,35 @@ Forms.helpers = {
 	, withFields: function () {
 		return _.map(this.schema, this.withField, this);
 	}
+	, withChild: function (child) {
+		var field = this.get('field', true);
+		var schema = field.schema || {};
+		var fieldDefaults = field.field || {};
+
+		return Forms.reactiveContext(child, {
+			schema: schema
+			, field: _.defaults({}, fieldDefaults, this.fieldDefaults)
+		}, this);
+	}
+	, withChildren: function () {
+		// should be called from inside a withField context
+		return _.map(this.get(this.fieldName) || [], this.withChild, this);
+	}
 	, withButton: function (button, buttonName) {
+		if (typeof button == 'string') {
+			buttonName = button;
+			button = this.get('buttons', buttonName);
+		}
+
+		if (button instanceof Spacebars.kw) {
+			button = button.hash;
+			this.set('buttons', button.name, button);
+		}
+
+		if (!buttonName) {
+			buttonName = button.name;
+		}
+
 		// button represents a buttons entry
 		return _.defaults({
 			buttonName: buttonName

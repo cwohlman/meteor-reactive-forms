@@ -5,7 +5,9 @@ Forms.reactiveContext = function (item, helpers) {
 
 	// Convert last helper argument to object
 	// see blaze/spacebars documentation for why this is necessary
-	args[args.length - 1] = args[args.length - 1].hash;
+	if (args[args.length -1] instanceof Spacebars.kw) {
+		args[args.length - 1] = args[args.length - 1].hash;
+	}
 
 	if (args.length == 1) {
 		// Only the hash value was passed
