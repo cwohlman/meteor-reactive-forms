@@ -27,14 +27,14 @@ Forms.reactiveContext = function (item, helpers) {
 	var context = {
 		item: item
 		// we use the id as a property name prefix in the get and set helpers
-		, _id: item && item._id || Random.id()
+		, id: item && item._id || Random.id()
 		// marks this object as a reactive context
 		, __reactiveContext: true
 	};
 
 	// we store the item twice on the context to allow it to be accessed in child contexts
 	// the naming convention is taken 
-	context[context._id + "_item"] = context.item;
+	context[context.id + "_item"] = context.item;
 
 	// an array of arguments to the _.extend function
 	// which will be used to build the final data context we return.
@@ -151,7 +151,7 @@ var reactiveContextHelpers = {
 		
 		if (!name && name !== false) name = true;
 		if (!property) property = "item";
-		if (!id) id = this._id;
+		if (!id) id = this.id;
 
 		check(id, String);
 		check(property, String);
@@ -207,7 +207,7 @@ var reactiveContextHelpers = {
 		}
 
 		if (!property) property = "item";
-		if (!id) id = this._id;
+		if (!id) id = this.id;
 
 		check(id, String);
 		check(property, String);

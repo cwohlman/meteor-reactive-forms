@@ -24,8 +24,8 @@ Wraps your code with a `reactiveContext`, which contains 4 important properties:
 A few examples to clarify:
 
  - I want to access the age property of the item we are editing:
-        this.get(this._id, 'item', 'age');
-   Note that this.get defaults id and property to this._id and 'item' respectively, so all that is really necessary is:
+        this.get(this.id, 'item', 'age');
+   Note that this.get defaults id and property to this.id and 'item' respectively, so all that is really necessary is:
         this.get('age');
  - I want to store an error message about the age property:
         this.set('errors', 'age', 'age must be between 18 and 100');
@@ -38,7 +38,7 @@ A few examples to clarify:
 The full get and set signatures:
 
 `get(id, property, name)` - All three arguments are optional, but optional parameters are processed in reverse order, if one argument is supplied it is assumed to be name, two arguments are assumed to be name and property, etc. Each argument defaults to the following:
- - id - this._id
+ - id - this.id
  - property - 'item'
  - name - true (if null will return the entire object as specified by id, property and extended by any values found in the dict)
 
