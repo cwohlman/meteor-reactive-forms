@@ -3,7 +3,7 @@
   "description": "Minimalistic library for making form contents reactive.",
   "homepage": "https://github.com/cwohlman/meteor-reactive-forms",
   "author": "Joshua Ohlman <codewriterohs@gmail.com>",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "git": "https://github.com/cwohlman/meteor-reactive-forms.git",
   "packages": {}
 }
