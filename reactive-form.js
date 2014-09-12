@@ -208,10 +208,9 @@ Forms.helpers = {
 		}
 		, options: function(val, options, fieldName){
 			if (!val) return;
-			if(!_.contains(options, val)){
+			if(!_.contains(options, val) && !_.contains(_.pluck(options, '_id'), val)){
 				return (fieldName + ' must be one of ' + options.join(', '));
 			}
-
 		}
 		, usPhoneNumber: function(val, options, fieldName){
 			if (!val) return;
