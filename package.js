@@ -8,12 +8,12 @@ Package.on_use(function (api, where) {
   api.use('reactive-dict');
   api.use('underscore');
   
-  api.add_files('reactive-context.js', ['client']);
-  api.add_files('child-context.js', ['client']);
-  api.add_files('children-context.js', ['client']);
+  api.add_files('reactive-context.js');
+  api.add_files('child-context.js');
+  api.add_files('children-context.js');
 
   api.add_files('reactive-form.html', ['client']);
-  api.add_files('reactive-form.js', ['client']);
+  api.add_files('reactive-form.js');
 
-  api.export('Forms', ['client']);
+  api.export('Forms');
 });

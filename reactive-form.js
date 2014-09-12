@@ -321,22 +321,50 @@ Forms.eventSelectors = {
 	]
 };
 
+Forms.validateItem = function (item, schema) {
+	var result = Forms.reactiveContext(null, {
+		schema: schema
+	}, Forms.helpers);
+	result.dict.set(result.id, item);
+	result.validateAll();
+	errors = result.get('errors', null);
+	return {
+		errors: errors
+		, isValid: _.any(errors)
+	};
+};
 
-Template.reactiveForm.helpers({
-	helpers: Forms.helpers
-});
+Forms.isInvalid = function (values, rules, callback) {
+	var validationResult = Forms.validateItem(values, rules);
+	if (validationResult.isValid) {
+		return false;
+	} else {
+		callback(_.flatten(validationResult.errors));
+		return true;
+	}
+};
 
-Template.reactiveForm.events(
-	_.chain(Forms.eventSelectors)
-	.pairs()
-	.map(function (a) {
-		var selector = a[1];
-		selector = _.map(selector, function (part) {
-			return part.join(" ");
-		}).join(", ");
-		var handler = Forms.events[a[0]];
-		return [selector, handler];
-	})
-	.object()
-	.value()
-);
+Forms.isValid = function (item, schema) {
+	return Forms.validateItem(item, schema).isValid;
+};
+
+if (Meteor.isClient) {
+	Template.reactiveForm.helpers({
+		helpers: Forms.helpers
+	});
+
+	Template.reactiveForm.events(
+		_.chain(Forms.eventSelectors)
+		.pairs()
+		.map(function (a) {
+			var selector = a[1];
+			selector = _.map(selector, function (part) {
+				return part.join(" ");
+			}).join(", ");
+			var handler = Forms.events[a[0]];
+			return [selector, handler];
+		})
+		.object()
+		.value()
+	);
+}

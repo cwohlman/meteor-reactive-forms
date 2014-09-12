@@ -111,7 +111,7 @@ var getChildChanges = function (original, changes, dict) {
 		});
 		if (match) return item;
 	};
-	var result = _.isArray(parent) ? [] : {};
+	var result = {}; 
 	var keys = _.uniq(_.keys(original).concat(_.keys(changes)));
 	_.each(keys, function (key) {
 		var val = changes[key] || original[key];
