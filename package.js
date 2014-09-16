@@ -8,6 +8,12 @@ Package.on_use(function (api, where) {
   api.use('reactive-dict');
   api.use('underscore');
   
+  // For validation
+  api.use('rules');
+  api.use('schema');
+  api.imply('rules');
+  api.imply('schema')
+
   api.add_files('reactive-context.js');
   api.add_files('child-context.js');
   api.add_files('children-context.js');
